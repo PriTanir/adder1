@@ -174,10 +174,11 @@ pub fn instr_to_string(i: Instr) -> String {
         Instr::Sub(args) => {
             format!("        sub {}", bin_args_to_string(args))
         }
-        
+        Instr::Ret => {
+            format!("	     ret")
         }
-        
-    }
+	  }	     
+}
 
 
 pub fn instrs_to_string(is: &[Instr]) -> String {
