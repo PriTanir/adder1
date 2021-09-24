@@ -86,13 +86,11 @@ fn imm64_to_string(i: i64) -> String {
 }
 
 fn mem_ref_to_string(m: MemRef) -> String {
-    // print mem ref - lect 3 and 4[], [reg + 1 * 8], m.offset = 1, 2. m.reg, no need to match
     let s1 = reg_to_string(m.reg);
     let s2 = imm32_to_string(m.offset);
-    // lecture 3 - use above 
-    //If register is RSP and offset is 10, then we need to return "[RSP-8*10]"
-    //return "[m.reg-8*m.offset]"
-    format!("{}", "[s1-8*s2]")
+    
+    // JAKE: I edited this. Seems like the right move
+    format!("[{}-8*{}]", s1, s2)
 
 }
 
@@ -123,41 +121,22 @@ fn mov_args_to_string(args: MovArgs) -> String {
     
     match args{
         MovArgs::ToMem(m,r) => {
-            
-            //let s1 = mem_ref_to_string(m);
-            //let s2 = reg32_to_string(r);
-            //format!(“{}, {}”, s1, s2)
-
-            format!("{}", mem_ref_to_string(m));
-           format!("{}", reg32_to_string(r))
-
+           format!("{}, {}", mem_ref_to_string(m), reg32_to_string(r))
         }
         MovArgs::ToReg(r,a) => {
-            
-           // format!(“{}, {}”, reg32_to_string(r), arg64_to_string(m))
-           format!("{}", reg_to_string(r));
-           format!("{}", arg64_to_string(a))
+           format!("{}, {}", reg_to_string(r), arg64_to_string(a))
         }
-        
-
-    }
-    
+    }    
 }
 
 fn bin_args_to_string(args: BinArgs) -> String {
     
     match args{
         BinArgs::ToReg(r,a) =>{
-            //format!(“{},{}”, reg32_to_string(r), arg32_to_string(m))
-            format!("{}", reg_to_string(r));
-         
-            format!("{}", arg32_to_string(a))
+            format!("{}, {}", reg_to_string(r), arg32_to_string(a))
         }
-        BinArgs::ToMem(m,r) =>
-        {
-            //format!(“{},{}”, mem_ref_to_string(m), reg32_to_string(r))
-            format!("{}", mem_ref_to_string(m));
-            format!("{}", reg32_to_string(r))
+        BinArgs::ToMem(m,r) =>{
+            format!("{}, {}", mem_ref_to_string(m), reg32_to_string(r))
            
         }
     }
@@ -175,9 +154,9 @@ pub fn instr_to_string(i: Instr) -> String {
             format!("        sub {}", bin_args_to_string(args))
         }
         Instr::Ret => {
-            format!("	     ret")
+            format!("        ret")
         }
-	  }	     
+    }	     
 }
 
 
